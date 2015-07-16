@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  function_callback.cpp
+ *       Filename:  type_traits.cpp
  *
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  2015年07月15日 16时37分48秒
+ *        Created:  2015年07月16日 00时17分08秒
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -20,38 +20,20 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <iostream>
-#include <functional>
+#include <type_traits>
 
-class A
+template<typename T>
+void func(T t)
 {
-    std::function<void()> callback_;
-
-    public:
-        A(const std::function<void()>&f):
-            callback_(f)
-        {}
-
-        void notify(void)
-        {
-            callback_();
-        }
-};
-
-class Foo
-{
-    public:
-        void operator()(void)
-        {
-            std::cout << __FUNCTION__ << std::endl;
-        }
-};
+    std::cout << std::is_array<T>::value << std::endl;
+    std::cout << std::is_fundamental<T>::value << std::endl;
+}
 
 int main(int argc, char *argv[])
 {
-	Foo foo;
-    foo();
-    A aa(foo);
-    aa.notify();
+    int a[10] = {1,2,3,4,5,6,7,8,9,0};
+	func<int*>(a);
+	func<int>(20);
 
 	return EXIT_SUCCESS;
 }
